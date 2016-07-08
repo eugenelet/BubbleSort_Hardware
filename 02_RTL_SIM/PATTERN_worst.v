@@ -1,0 +1,1 @@
+../00_TESTBENCH/PATTERN_worst.v
