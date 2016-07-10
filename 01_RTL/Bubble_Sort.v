@@ -21,6 +21,7 @@ output reg	[7:0] out_data;
 /*
  * Memory to store in data
 */
+reg			[7:0] in_data0;
 reg			[7:0] in_data1;
 reg			[7:0] in_data2;
 reg			[7:0] in_data3;
@@ -288,6 +289,7 @@ always @(posedge clk) begin
 		input_index <= 'd0;
 		in_valid_flag <= 1'b0;
 		bubble_start_flag <= 1'b0;
+		in_data0 <= 'd0;
 		in_data1 <= 'd0;
 		in_data2 <= 'd0;
 		in_data3 <= 'd0;
