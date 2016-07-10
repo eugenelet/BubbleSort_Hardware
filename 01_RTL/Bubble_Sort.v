@@ -283,6 +283,7 @@ reg			[7:0] in_data255;
 reg			[7:0] input_index;
 reg				  in_valid_flag; //so that calculation of bubble sort can start right after in_valid is low
 reg				  bubble_start_flag; //indicates the start of bubble sort (combinational)
+reg			[7:0] in_datatest;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		input_index <= 'd0;
@@ -548,7 +549,7 @@ always @(posedge clk) begin
 		if(in_valid) begin
 			in_valid_flag <= 1'b1;
 			input_index <= input_index + 1'b1;
-			`IN_DATA(input_index) <= in_data;
+			`IN_DATA(test) <= in_data;
 		end
 		else begin
 			if(in_valid_flag) begin
