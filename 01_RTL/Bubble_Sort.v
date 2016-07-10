@@ -1,3 +1,4 @@
+`timescale 1ns/10ps
 //`define IN_DATA(index) in_data``index
 //`define TEMP_ODD(index) temp_odd``index
 //`define TEMP_EVEN(index) temp_even``index
