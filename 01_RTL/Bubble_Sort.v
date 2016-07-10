@@ -292,7 +292,7 @@ reg			[7:0] in_data255;
 /*
  * Store input into memory
 */
-reg			[7:0] input_index;
+reg			[8:0] input_index;
 reg				  in_valid_flag; //so that calculation of bubble sort can start right after in_valid is low
 reg				  bubble_start_flag; //indicates the start of bubble sort (combinational)
 always @(posedge clk) begin
@@ -1105,7 +1105,7 @@ end
  * - INDEX of OUTER LOOP set to # of INPUTS (for now)
  */
 
-reg				[7:0] outer_loop;
+reg				[8:0] outer_loop;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		outer_loop <= 'd0;	
@@ -1134,7 +1134,7 @@ end
 /*
  * Dump Output
  */
- reg			[7:0] output_index;
+ reg			[8:0] output_index;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		output_index <= 'd0;		
