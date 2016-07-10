@@ -15,8 +15,8 @@ input             clk;
 input             rst_n;
 input             in_valid;
 input       [7:0] in_data;
-output		      out_valid;
-output		[7:0] out_data;
+output reg	      out_valid;
+output reg	[7:0] out_data;
 
 /*
  * Memory to store in data
@@ -282,7 +282,7 @@ reg			[7:0] in_data255;
 */
 reg			[7:0] input_index;
 reg				  in_valid_flag; //so that calculation of bubble sort can start right after in_valid is low
-reg				  bubble_start_flag;
+reg				  bubble_start_flag; //indicates the start of bubble sort (combinational)
 always @(posedge clk) begin
 	if (!rst_n) begin
 		input_index <= 'd0;
@@ -565,15 +565,49 @@ end
 
 /*
  * Bubble Sort
-*/
+ * -------------
+ * - Break into ODD and EVEN parts
+ * - INDEX of OUTER LOOP set to # of INPUTS (for now)
+ */
 
-reg				  outer_loop;
+reg				[7:0] outer_loop;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		outer_loop <= 'd0;		
 	end
 	else if (bubble_start_flag) begin
-		outer_loop <= outer_loop + 1;
+		if(outer_loop != input_index) begin
+			outer_loop <= outer_loop + 1'b1;
+		end
+		else begin
+			outer_loop <= outer_loop;
+		end
+	end
+end
+
+
+/*
+ * Dump Output
+ */
+ reg			[7:0] output_index;
+always @(posedge clk) begin
+	if (!rst_n) begin
+		output_index <= 'd0;		
+	end
+	else if (outer_loop == input_index) begin
+		if (output_index < input_index) begin
+			output_index <= output_index + 1'b1;
+			out_data <= IN_DATA(output_index);
+			out_valid <= 1'b1;
+		end
+		else begin
+			out_data <= 'd0;
+			out_valid <= 1'b0;
+		end
+	end
+	else begin
+		out_data <= 'd0;
+		out_valid <= 1'b0;
 	end
 end
 
@@ -581,7 +615,7 @@ end
 
 /*
  * Combinational Block for exchaging elements
-*/
+ */
 
 reg			[7:0] temp_even0;
 reg			[7:0] temp_even1;
@@ -711,6 +745,7 @@ reg			[7:0] temp_even124;
 reg			[7:0] temp_even125;
 reg			[7:0] temp_even126;
 reg			[7:0] temp_even127;
+reg			[7:0] temp_even128;
 
 
 
@@ -843,6 +878,10 @@ reg			[7:0] temp_odd125;
 reg			[7:0] temp_odd126;
 reg			[7:0] temp_odd127;
 
+
+/*
+ * Swapping of Elements of Bubble Sort
+ */
 
 always @(*) begin
 	if (bubble_start_flag) begin
@@ -3154,3 +3193,5 @@ always @(*) begin
 		TEMP_EVEN(128) = 'd0;
 	end
 end
+
+endmodule
