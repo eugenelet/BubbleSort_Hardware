@@ -547,7 +547,7 @@ always @(posedge clk) begin
 	else begin
 		if(in_valid) begin
 			in_valid_flag <= 1'b1;
-			input_index <= input_index + 'd1;
+			input_index <= input_index + 1'b1;
 			IN_DATA(input_index) <= in_data;
 		end
 		else begin
