@@ -857,7 +857,7 @@ always @(posedge clk) begin
 			outer_loop <= outer_loop + 1'b1;
 		end
 		else if(dump_out_flag) begin//finish dumping outputs
-			dump_out_flag <= 1'b0;
+			//dump_out_flag <= 1'b0;
 			outer_loop <= 'd0;
 			//done_sort <= 1'b0;
 		end
@@ -879,6 +879,10 @@ end
 always @(posedge clk) begin
 	if (!rst_n) begin
 		output_index <= 'd0;		
+	end
+	else if (dump_out_flag) begin
+		dump_out_flag <= 1'b0;
+		output_index <= 'd0;
 	end
 	else if (outer_loop == input_index) begin//sorted for outer_loop # of times
 		if (output_index < input_index) begin
@@ -1147,7 +1151,6 @@ always @(posedge clk) begin
 			out_data <= 'd0;
 			out_valid <= 1'b0;
 			dump_out_flag <= 1'b1;
-			output_index <= 'd0;
 		end
 		else begin
 			out_data <= 'd0;
