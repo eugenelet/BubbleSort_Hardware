@@ -19,7 +19,7 @@ input       [7:0] in_data;
 output reg	      out_valid;
 output reg	[7:0] out_data;
 
-reg				  done_sort;
+//reg				  done_sort;
 reg				  dump_out_flag;
 
 
@@ -822,8 +822,8 @@ always @(posedge clk) begin
 			endcase
 		end
 		else begin//!in_valid
-			if(done_sort) begin
-				done_sort <= 1'b0;
+			if(dump_out_flag) begin
+				//done_sort <= 1'b0;
 				bubble_start_flag <= 1'b0;
 			end
 			else if(in_valid_flag) begin
@@ -849,20 +849,20 @@ reg				[7:0] outer_loop;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		outer_loop <= 'd0;	
-		done_sort <= 1'b0;	
+		//done_sort <= 1'b0;	
 	end
 	else if (bubble_start_flag) begin
-		if(outer_loop != input_index) begin
+		if(outer_loop < input_index) begin
 			outer_loop <= outer_loop + 1'b1;
 		end
-		else if(dump_out_flag) begin
+		else if(dump_out_flag) begin//finish dumping outputs
 			dump_out_flag <= 1'b0;
 			outer_loop <= 'd0;
-			done_sort <= 1'b0;
+			//done_sort <= 1'b0;
 		end
 		else begin
 			outer_loop <= outer_loop;
-			done_sort <= 1'b1;
+			//done_sort <= 1'b1;
 		end
 	end
 end
@@ -1142,7 +1142,7 @@ always @(posedge clk) begin
 				'd255: out_data <= in_data255;
 			endcase
 		end
-		else if (output_index == input_index && output_index!='d0) begin
+		else if (output_index==input_index && output_index!='d0) begin//finish dumping output
 			out_data <= 'd0;
 			out_valid <= 1'b0;
 			dump_out_flag <= 1'b1;
