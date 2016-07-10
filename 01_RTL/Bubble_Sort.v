@@ -1147,6 +1147,7 @@ always @(posedge clk) begin
 			out_data <= 'd0;
 			out_valid <= 1'b0;
 			dump_out_flag <= 1'b1;
+			output_index <= 'd0;
 		end
 		else begin
 			out_data <= 'd0;
