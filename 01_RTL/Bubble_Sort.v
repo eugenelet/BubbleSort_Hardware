@@ -279,6 +279,11 @@ reg			[7:0] in_data253;
 reg			[7:0] in_data254;
 reg			[7:0] in_data255;
 
+
+
+
+
+
 /*
  * Store input into memory
 */
@@ -811,8 +816,12 @@ always @(posedge clk) begin
 				'd255: in_data255 <= in_data;
 			endcase
 		end
-		else begin
-			if(in_valid_flag) begin
+		else begin//!in_valid
+			if(done_sort) begin
+				done_sort <= 1'b0;
+				bubble_start_flag <= 1'b0;
+			end
+			else if(in_valid_flag) begin
 				bubble_start_flag <= 1'b1;
 			end
 			else begin
@@ -832,30 +841,42 @@ end
  */
 
 reg				[7:0] outer_loop;
+reg					  done_sort;
 always @(posedge clk) begin
 	if (!rst_n) begin
-		outer_loop <= 'd0;		
+		outer_loop <= 'd0;	
+		done_sort <= 1'b0;	
 	end
 	else if (bubble_start_flag) begin
 		if(outer_loop != input_index) begin
 			outer_loop <= outer_loop + 1'b1;
 		end
+		else if(dump_out_flag) begin
+			dump_out_flag <= 1'b0;
+			outer_loop <= 'd0;
+			done_sort <= 1'b0;
+		end
 		else begin
 			outer_loop <= outer_loop;
+			done_sort <= 1'b1;
 		end
 	end
 end
+
+
+
 
 
 /*
  * Dump Output
  */
  reg			[7:0] output_index;
+ reg				  dump_out_flag;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		output_index <= 'd0;		
 	end
-	else if (outer_loop == input_index) begin
+	else if (outer_loop == input_index) begin//sorted for outer_loop # of times
 		if (output_index < input_index) begin
 			output_index <= output_index + 1'b1;
 			out_valid <= 1'b1;
@@ -1118,6 +1139,11 @@ always @(posedge clk) begin
 				'd255: out_data <= in_data255;
 			endcase
 		end
+		else if (output_index == input_index) begin
+			out_data <= 'd0;
+			out_valid <= 1'b0;
+			dump_out_flag <= 1'b1;
+		end
 		else begin
 			out_data <= 'd0;
 			out_valid <= 1'b0;
@@ -1132,7 +1158,7 @@ end
 
 
 /*
- * Combinational Block for exchaging elements
+ * Combinational Block for exchaging elements of Bubble Sort
  */
 
 reg			[7:0] temp_even1;
@@ -1395,9 +1421,6 @@ reg			[7:0] temp_odd126;
 reg			[7:0] temp_odd127;
 
 
-/*
- * Swapping of Elements of Bubble Sort
- */
 
 always @(*) begin
 	if (bubble_start_flag) begin
@@ -3447,16 +3470,16 @@ always @(*) begin
 		end
 	end
 	else begin
-		temp_odd1 = 'd0;
-		temp_odd2 = 'd0;
-		temp_odd3 = 'd0;
-		temp_odd4 = 'd0;
-		temp_odd5 = 'd0;
-		temp_odd6 = 'd0;
-		temp_odd7 = 'd0;
-		temp_odd8 = 'd0;
-		temp_odd9 = 'd0;
-		temp_odd10 = 'd0;
+		temp_odd1   = 'd0;
+		temp_odd2   = 'd0;
+		temp_odd3   = 'd0;
+		temp_odd4   = 'd0;
+		temp_odd5   = 'd0;
+		temp_odd6   = 'd0;
+		temp_odd7   = 'd0;
+		temp_odd8   = 'd0;
+		temp_odd9   = 'd0;
+		temp_odd10  = 'd0;
 		temp_odd11  = 'd0;
 		temp_odd12  = 'd0;
 		temp_odd13  = 'd0;
@@ -3546,7 +3569,7 @@ always @(*) begin
 		temp_odd97  = 'd0;
 		temp_odd98  = 'd0;
 		temp_odd99  = 'd0;
-		temp_odd100  = 'd0;
+		temp_odd100 = 'd0;
 		temp_odd101 = 'd0;
 		temp_odd102 = 'd0;
 		temp_odd103 = 'd0;
@@ -3575,105 +3598,105 @@ always @(*) begin
 		temp_odd126 = 'd0;
 		temp_odd127 = 'd0;
 
-		temp_even1 = 'd0;
-		temp_even2 = 'd0;
-		temp_even3 = 'd0;
-		temp_even4 = 'd0;
-		temp_even5 = 'd0;
-		temp_even6 = 'd0;
-		temp_even7 = 'd0;
-		temp_even8 = 'd0;
-		temp_even9 = 'd0;
-		temp_even10 = 'd0;
-		temp_even11 = 'd0;
-		temp_even12 = 'd0;
-		temp_even13 = 'd0;
-		temp_even14 = 'd0;
-		temp_even15 = 'd0;
-		temp_even16 = 'd0;
-		temp_even17 = 'd0;
-		temp_even18 = 'd0;
-		temp_even19 = 'd0;
-		temp_even20 = 'd0;
-		temp_even21 = 'd0;
-		temp_even22 = 'd0;
-		temp_even23 = 'd0;
-		temp_even24 = 'd0;
-		temp_even25 = 'd0;
-		temp_even26 = 'd0;
-		temp_even27 = 'd0;
-		temp_even28 = 'd0;
-		temp_even29 = 'd0;
-		temp_even30 = 'd0;
-		temp_even31 = 'd0;
-		temp_even32 = 'd0;
-		temp_even33 = 'd0;
-		temp_even34 = 'd0;
-		temp_even35 = 'd0;
-		temp_even36 = 'd0;
-		temp_even37 = 'd0;
-		temp_even38 = 'd0;
-		temp_even39 = 'd0;
-		temp_even40 = 'd0;
-		temp_even41 = 'd0;
-		temp_even42 = 'd0;
-		temp_even43 = 'd0;
-		temp_even44 = 'd0;
-		temp_even45 = 'd0;
-		temp_even46 = 'd0;
-		temp_even47 = 'd0;
-		temp_even48 = 'd0;
-		temp_even49 = 'd0;
-		temp_even50 = 'd0;
-		temp_even51 = 'd0;
-		temp_even52 = 'd0;
-		temp_even53 = 'd0;
-		temp_even54 = 'd0;
-		temp_even55 = 'd0;
-		temp_even56 = 'd0;
-		temp_even57 = 'd0;
-		temp_even58 = 'd0;
-		temp_even59 = 'd0;
-		temp_even60 = 'd0;
-		temp_even61 = 'd0;
-		temp_even62 = 'd0;
-		temp_even63 = 'd0;
-		temp_even64 = 'd0;
-		temp_even65 = 'd0;
-		temp_even66 = 'd0;
-		temp_even67 = 'd0;
-		temp_even68 = 'd0;
-		temp_even69 = 'd0;
-		temp_even70 = 'd0;
-		temp_even71 = 'd0;
-		temp_even72 = 'd0;
-		temp_even73 = 'd0;
-		temp_even74 = 'd0;
-		temp_even75 = 'd0;
-		temp_even76 = 'd0;
-		temp_even77 = 'd0;
-		temp_even78 = 'd0;
-		temp_even79 = 'd0;
-		temp_even80 = 'd0;
-		temp_even81 = 'd0;
-		temp_even82 = 'd0;
-		temp_even83 = 'd0;
-		temp_even84 = 'd0;
-		temp_even85 = 'd0;
-		temp_even86 = 'd0;
-		temp_even87 = 'd0;
-		temp_even88 = 'd0;
-		temp_even89 = 'd0;
-		temp_even90 = 'd0;
-		temp_even91 = 'd0;
-		temp_even92 = 'd0;
-		temp_even93 = 'd0;
-		temp_even94 = 'd0;
-		temp_even95 = 'd0;
-		temp_even96 = 'd0;
-		temp_even97 = 'd0;
-		temp_even98 = 'd0;
-		temp_even99 = 'd0;
+		temp_even1	 = 'd0;
+		temp_even2	 = 'd0;
+		temp_even3	 = 'd0;
+		temp_even4	 = 'd0;
+		temp_even5	 = 'd0;
+		temp_even6	 = 'd0;
+		temp_even7	 = 'd0;
+		temp_even8	 = 'd0;
+		temp_even9	 = 'd0;
+		temp_even10  = 'd0;
+		temp_even11  = 'd0;
+		temp_even12  = 'd0;
+		temp_even13  = 'd0;
+		temp_even14  = 'd0;
+		temp_even15  = 'd0;
+		temp_even16  = 'd0;
+		temp_even17  = 'd0;
+		temp_even18  = 'd0;
+		temp_even19  = 'd0;
+		temp_even20  = 'd0;
+		temp_even21  = 'd0;
+		temp_even22  = 'd0;
+		temp_even23  = 'd0;
+		temp_even24  = 'd0;
+		temp_even25  = 'd0;
+		temp_even26  = 'd0;
+		temp_even27  = 'd0;
+		temp_even28  = 'd0;
+		temp_even29  = 'd0;
+		temp_even30  = 'd0;
+		temp_even31  = 'd0;
+		temp_even32  = 'd0;
+		temp_even33  = 'd0;
+		temp_even34  = 'd0;
+		temp_even35  = 'd0;
+		temp_even36  = 'd0;
+		temp_even37  = 'd0;
+		temp_even38  = 'd0;
+		temp_even39  = 'd0;
+		temp_even40  = 'd0;
+		temp_even41  = 'd0;
+		temp_even42  = 'd0;
+		temp_even43  = 'd0;
+		temp_even44  = 'd0;
+		temp_even45  = 'd0;
+		temp_even46  = 'd0;
+		temp_even47  = 'd0;
+		temp_even48  = 'd0;
+		temp_even49  = 'd0;
+		temp_even50  = 'd0;
+		temp_even51  = 'd0;
+		temp_even52  = 'd0;
+		temp_even53  = 'd0;
+		temp_even54  = 'd0;
+		temp_even55  = 'd0;
+		temp_even56  = 'd0;
+		temp_even57  = 'd0;
+		temp_even58  = 'd0;
+		temp_even59  = 'd0;
+		temp_even60  = 'd0;
+		temp_even61  = 'd0;
+		temp_even62  = 'd0;
+		temp_even63  = 'd0;
+		temp_even64  = 'd0;
+		temp_even65  = 'd0;
+		temp_even66  = 'd0;
+		temp_even67  = 'd0;
+		temp_even68  = 'd0;
+		temp_even69  = 'd0;
+		temp_even70  = 'd0;
+		temp_even71  = 'd0;
+		temp_even72  = 'd0;
+		temp_even73  = 'd0;
+		temp_even74  = 'd0;
+		temp_even75  = 'd0;
+		temp_even76  = 'd0;
+		temp_even77  = 'd0;
+		temp_even78  = 'd0;
+		temp_even79  = 'd0;
+		temp_even80  = 'd0;
+		temp_even81  = 'd0;
+		temp_even82  = 'd0;
+		temp_even83  = 'd0;
+		temp_even84  = 'd0;
+		temp_even85  = 'd0;
+		temp_even86  = 'd0;
+		temp_even87  = 'd0;
+		temp_even88  = 'd0;
+		temp_even89  = 'd0;
+		temp_even90  = 'd0;
+		temp_even91  = 'd0;
+		temp_even92  = 'd0;
+		temp_even93  = 'd0;
+		temp_even94  = 'd0;
+		temp_even95  = 'd0;
+		temp_even96  = 'd0;
+		temp_even97  = 'd0;
+		temp_even98  = 'd0;
+		temp_even99  = 'd0;
 		temp_even100 = 'd0;
 		temp_even101 = 'd0;
 		temp_even102 = 'd0;
