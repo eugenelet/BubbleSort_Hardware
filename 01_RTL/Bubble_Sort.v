@@ -19,6 +19,11 @@ input       [7:0] in_data;
 output reg	      out_valid;
 output reg	[7:0] out_data;
 
+reg				  done_sort;
+reg				  dump_out_flag;
+
+
+
 /*
  * Memory to store in data
 */
@@ -841,7 +846,6 @@ end
  */
 
 reg				[7:0] outer_loop;
-reg					  done_sort;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		outer_loop <= 'd0;	
@@ -871,7 +875,6 @@ end
  * Dump Output
  */
  reg			[7:0] output_index;
- reg				  dump_out_flag;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		output_index <= 'd0;		
