@@ -1142,7 +1142,7 @@ always @(posedge clk) begin
 				'd255: out_data <= in_data255;
 			endcase
 		end
-		else if (output_index == input_index) begin
+		else if (output_index == input_index && output_index!='d0) begin
 			out_data <= 'd0;
 			out_valid <= 1'b0;
 			dump_out_flag <= 1'b1;
