@@ -824,6 +824,7 @@ always @(posedge clk) begin
 		else begin//!in_valid
 			if(dump_out_flag) begin
 				//done_sort <= 1'b0;
+				input_index <= 'd0;
 				bubble_start_flag <= 1'b0;
 			end
 			else if(in_valid_flag) begin
