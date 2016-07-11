@@ -1648,6 +1648,7 @@ always @(posedge clk) begin
 	else if (current_state == `INIT_STATE) begin//finish dumping output and return to init state
 		out_data <= 'd0;
 		out_valid <= 1'b0;
+		output_index <= 1'b0;
 	end
 	else begin
 		out_data <= out_data;
