@@ -20,6 +20,9 @@ output reg	      out_valid;
 output reg	[7:0] out_data;
 
 
+reg			[1:0] current_state;
+reg			[1:0] next_state;
+
 /*
  * Memory to store in data
  */
@@ -4226,8 +4229,6 @@ always @(*) begin
 	end
 end
 
-reg			[1:0] current_state;
-reg			[1:0] next_state;
 
 always @(posedge clk) begin
 	if (!rst_n) begin
