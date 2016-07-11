@@ -16,7 +16,7 @@ output  reg [7:0] out_data;
 wire		[7:0] bubble_out_data;
 wire			  bubble_out_valid;
 
-Bubble_Sort bs(
+Bubble_Sort_FSM bs(
 	.clk(clk),
 	.rst_n(rst_n),
 	.in_valid(in_valid),
