@@ -4247,6 +4247,7 @@ always @(current_state or in_valid or outer_loop or input_index or output_index)
 		`INIT_STATE: begin
 			if(in_valid) begin
 				next_state = `STORE_INPUT;
+				current_state = `STORE_INPUT; //need early transition
 			end
 			else begin
 				next_state = current_state;
