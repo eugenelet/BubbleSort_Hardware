@@ -1,7 +1,4 @@
 `timescale 1ns/10ps
-//`define IN_DATA(index) in_data``index
-//`define TEMP_ODD(index) temp_odd``index
-//`define TEMP_EVEN(index) temp_even``index
 
 module Bubble_Sort(
 	clk,
@@ -19,14 +16,13 @@ input       [7:0] in_data;
 output reg	      out_valid;
 output reg	[7:0] out_data;
 
-//reg				  done_sort;
 reg				  dump_out_flag;
 
 
 
 /*
  * Memory to store in data
-*/
+ */
 reg			[7:0] in_data0;
 reg			[7:0] in_data1;
 reg			[7:0] in_data2;
@@ -291,7 +287,7 @@ reg			[7:0] in_data255;
 
 /*
  * Store input into memory
-*/
+ */
 reg			[8:0] input_index;
 reg				  in_valid_flag; //so that calculation of bubble sort can start right after in_valid is low
 reg				  bubble_start_flag; //indicates the start of bubble sort (combinational)
@@ -823,7 +819,6 @@ always @(posedge clk) begin
 		end
 		else begin//!in_valid
 			if(dump_out_flag) begin
-				//done_sort <= 1'b0;
 				input_index <= 'd0;
 				bubble_start_flag <= 1'b0;
 				in_valid_flag <= 1'b0;
@@ -1109,20 +1104,16 @@ reg				[8:0] outer_loop;
 always @(posedge clk) begin
 	if (!rst_n) begin
 		outer_loop <= 'd0;	
-		//done_sort <= 1'b0;	
 	end
 	else if (bubble_start_flag) begin
 		if(outer_loop < input_index) begin
 			outer_loop <= outer_loop + 1'b1;
 		end
 		else if(dump_out_flag) begin//finish dumping outputs
-			//dump_out_flag <= 1'b0;
 			outer_loop <= 'd0;
-			//done_sort <= 1'b0;
 		end
 		else begin
 			outer_loop <= outer_loop;
-			//done_sort <= 1'b1;
 		end
 	end
 end
