@@ -4226,6 +4226,8 @@ always @(*) begin
 	end
 end
 
+reg			[1:0] current_state;
+reg			[1:0] next_state;
 
 always @(posedge clk) begin
 	if (!rst_n) begin
