@@ -553,7 +553,7 @@ always @(posedge clk) begin
 		in_data255 <= 'd0;
 	end
 	else begin
-		if(current_state==`STORE_INPUT || (current_state==`DUMP_OUTPUT)&&in_valid) begin
+		if(current_state==`STORE_INPUT || (current_state==`INIT_STATE)&&in_valid) begin
 			input_index <= input_index + 1'b1;
 			case(input_index)
 				'd0: in_data0 <= in_data;
