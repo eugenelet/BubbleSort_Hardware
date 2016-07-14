@@ -2426,50 +2426,6 @@ always @(posedge clk) begin
 				in_data254 <= in_data255;
 				in_data255 <= in_data254;
 			end
-			if(in_data256 < in_data257) begin
-				in_data256 <= in_data257;
-				in_data257 <= in_data256;
-			end
-			if(in_data258 < in_data259) begin
-				in_data258 <= in_data259;
-				in_data259 <= in_data258;
-			end
-			if(in_data260 < in_data261) begin
-				in_data260 <= in_data261;
-				in_data261 <= in_data260;
-			end
-			if(in_data262 < in_data263) begin
-				in_data262 <= in_data263;
-				in_data263 <= in_data262;
-			end
-			if(in_data264 < in_data265) begin
-				in_data264 <= in_data265;
-				in_data265 <= in_data264;
-			end
-			if(in_data266 < in_data267) begin
-				in_data266 <= in_data267;
-				in_data267 <= in_data266;
-			end
-			if(in_data268 < in_data269) begin
-				in_data268 <= in_data269;
-				in_data269 <= in_data268;
-			end
-			if(in_data270 < in_data271) begin
-				in_data270 <= in_data271;
-				in_data271 <= in_data270;
-			end
-			if(in_data272 < in_data273) begin
-				in_data272 <= in_data273;
-				in_data273 <= in_data272;
-			end
-			if(in_data274 < in_data275) begin
-				in_data274 <= in_data275;
-				in_data275 <= in_data274;
-			end
-			if(in_data276 < in_data277) begin
-				in_data276 <= in_data277;
-				in_data277 <= in_data276;
-			end
 		end
 	end
 	
